@@ -1,0 +1,34 @@
+html {
+  min-height: 100%;
+  position: relative;
+}
+
+body {
+  margin-bottom: 80px;
+}
+
+.jumbotron {
+  background-image: url("/images/food-bg-image.png");
+  background-repeat: no-repeat;
+  background-size: auto;
+  background-position: center;
+  height: 700px;
+  background-color: #E9EEF1;
+}
+
+.bt-margin {
+  padding-bottom: 60px !important;
+}
+
+.card-img-top {
+  width: 100%;
+  height: 20vw;
+  object-fit: cover;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+}

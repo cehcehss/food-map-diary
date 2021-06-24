@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Map Diary</title>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        #title {
+            font-size: 2rem;
+            font-weight: 500;
+            margin: 3rem 0;
+            border-bottom: 2px solid #000;
+            display: inline-block;
+            padding-bottom: 10px;
+            font-family: sans-serif;
+        }
+    </style>
+</head>
+
+<body user-id="<%=user.id%>">
+    <% include nav %>
+    <div id="map">
+    </div>
+    <div class="container my-5 bt-margin">
+        <div class="row">
+            <div class="col text-center">
+                <h2 id="title"><%=user.username%>'s food map diary</h2>
+            </div>
+        </div>
+        <div class="row justify-content-center" id="posts">
+        </div>
+    </div>
+
+    <script src="/javascripts/member-page.js"></script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCzcTl3LDEmVUC_l1WcwyBlaMMoUBwmHBk&callback=initMap"
+        async defer></script>
+</body>
+
+</html>
