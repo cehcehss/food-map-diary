@@ -31,7 +31,7 @@ module.exports = {
       })
     }
     // validation passed
-    User.findOne({ where: { username: username } })
+    User.findOne({ where: { username: username }})
       .then(async (user) => {
         if (user) {
           console.log('Username already exists')
@@ -78,8 +78,30 @@ module.exports = {
       let  posts = await db.sequelize.query(`SELECT * FROM Posts WHERE authorId = ${uid}`, { type: QueryTypes.SELECT })
       return posts;
     }
-    Promise.all([asyncFindUserPosts()]).then(values => {
+    const asyncGetTags = async()=>{
+      let tags = await db.sequelize.query(`SELECT postId, tagId, tagName FROM Post_Tags, Posts, Tags 
+                                              Where Posts.authorId = ${uid}
+                                              AND Posts.id = Post_Tags.postId 
+                                              AND Tags.id = Post_Tags.tagId;`, { type: QueryTypes.SELECT })
+      return tags;
+  }
+    Promise.all([asyncFindUserPosts(),asyncGetTags()]).then(values => {
       let posts = values[0];
+      let tags = values[1];
+      var tagDict = {};
+      tags.forEach(function(v){
+          if(tagDict[v.postId]!== undefined){
+              tagDict[v.postId].push(v.tagName);
+          }else{
+              tagDict[v.postId] = [];
+              tagDict[v.postId].push(v.tagName);
+          }
+      })
+      posts.forEach(function(post){
+          if(tagDict[post.id]!=undefined){
+            post['tags'] = tagDict[post.id];
+        }
+      })
       res.json({posts:posts});
     });
   }

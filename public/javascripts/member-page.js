@@ -135,12 +135,15 @@ function initMap() {
                                     <div class="card-body">
                                         <i class="far fa-trash-alt text-muted float-end"></i>
                                         <i class="far fa-edit text-muted float-end me-2"></i>
-                                        <h5 class="card-title">${post.title} ${post.isPublic?'<i class="fas fa-lock text-muted"></i>':""}</h5>
+                                        <h5 class="card-title">${post.title} ${post.isPublic?'':'<i class="fas fa-lock text-muted"></i>'}</h5>
                                         
                                         <p class="card-text">${post.content}</p>
                                         <p class="card-text"><small class="text-muted">${post.createdAt}</small></p>
                                         <a href="https://www.google.com/maps/search/?api=1&query=${post.address}" class="btn btn-outline-secondary"
                                         target="_blank"><i class="fas fa-map-marker-alt"></i></a>
+                                        <div id="tag-box">
+                                            ${post.tags.map(function(tag){return '<a href="/posts/'+tag+'" class="tags">#'+tag+'</a>'}).join("")}
+                                        </div>
                                     </div>
                                     </div>
                                 </div>`;

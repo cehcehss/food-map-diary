@@ -42,10 +42,10 @@ module.exports = {
             processFormData(imagePath)
         }
         function processFormData(imagePath){
-            let {title, address, shopType, content,isPublic} = req.body;
+            let {title, address, shopType, content,isPublic,tags} = req.body;
             isPublic = (isPublic == 'public')?true:false;
             Post.create({
-                authorId:"1",
+                authorId:req.user.id,
                 title:title,
                 content:content,
                 shopType:shopType,
@@ -53,22 +53,37 @@ module.exports = {
                 image:imagePath,
                 isPublic:isPublic
             })
-            .then(post => res.redirect('/'))
+            .then(post => {
+                var tagsArr = tags[0].split(",");
+                async function getTags(tagsArr) {
+                    var tagsId = [];
+                    await Promise.all(tagsArr.map(tag => {
+                        return Tag.findOrCreate({
+                        where: {
+                            tagName: tag
+                        }
+                    }).then(result=>{
+                        tagsId.push(result[0].id);
+                    })
+                    }));
+                    return tagsId;
+                }
+                getTags(tagsArr).then(tagsId=>{
+                    var data = [];
+                    tagsId.forEach(tagId => {
+                        var postTag = {};
+                        postTag['postId'] = post.id;
+                        postTag['tagId'] = tagId;
+                        data.push(postTag);
+                    });
+                    Post_Tag.bulkCreate(data)
+                    .then(function(result) {
+                        res.json({success : "Create Successfully", status : 200})
+                    });
+                });
+            })
             .catch(error => res.status(422).json(error));
         }
-
  
-        // retrieve error message from express-validator
-        // const errors = validationResult(req)
-        // error messages exist
-        // if (!errors.isEmpty()) {
-        //     return res.status(422).render('add-post', {
-        //     postFormCSS: true,
-        //     formValidation: true,
-        //     warning: errors.array(),
-        //     post: {title, address, shopType, content,image}
-        //     })
-        // }
- 
-    },
+    }
 }

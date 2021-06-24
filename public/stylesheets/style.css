@@ -26,6 +26,30 @@ body {
   object-fit: cover;
 }
 
+#tag-box {
+  float: right;
+}
+
+.tags {
+  margin-left: 5px;
+  color: #fff;
+  background-color: #17a2b8;
+  display: inline-block;
+  padding: .45em .4em;
+  font-size: 80%;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25rem;
+  text-decoration: none;
+}
+
+.tags:hover {
+  color: white;
+}
+
 footer {
   position: absolute;
   bottom: 0;

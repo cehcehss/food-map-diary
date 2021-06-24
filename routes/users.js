@@ -22,11 +22,10 @@ router.get('/register', userController.getRegister)
 router.post('/register', validation.registerUser, userController.postRegister)
 
 // 登出
-router.get('/logout', userController.getLogout)
+router.get('/logout', isAuthenticated, userController.getLogout)
 
 // 我的帳戶頁面
-router.get('/user', userController.getMemberPage)
-router.get('/getMemberData/:id', userController.getMemberData)
-
+router.get('/user', isAuthenticated, userController.getMemberPage)
+router.get('/getMemberData/:id', isAuthenticated, userController.getMemberData)
 
 module.exports = router;

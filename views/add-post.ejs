@@ -23,7 +23,8 @@
         <div class="row justify-content-center">
             <div class="col-md-6 col-sm-12">
                 <form action="/posts/new" method="post" enctype="multipart/form-data" id="new-post-form">
-                    <!--CSRF token-->
+                    <input type="hidden" id="_csrf" name="_csrf" value="<%= csrfToken %>">
+
                     <div class="mb-3">
                         <label for="title" class="form-label">標題</label>
                         <input type="text" class="form-control" name="title" id="title">
@@ -50,13 +51,13 @@
                         <input class="form-control" type="file" name="target_file" id="image">
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="isPublic" id="public" checked>
+                        <input class="form-check-input" type="radio" name="isPublic" id="public" checked value="public">
                         <label class="form-check-label" for="public">
                             Public
                         </label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="isPublic" id="private">
+                        <input class="form-check-input" type="radio" name="isPublic" id="private" value="private">
                         <label class="form-check-label" for="private">
                             Private
                         </label>
@@ -67,7 +68,7 @@
                             style="width:100%">
                     </div>
                     <div class="mt-3">
-                        <button type="submit" class="btn btn-secondary">送出</button>
+                        <button type="submit" class="btn btn-secondary" id="submit-btn">送出</button>
                         <a class="btn btn-outline-secondary" href="/">取消</a>
                     </div>
                 </form>
