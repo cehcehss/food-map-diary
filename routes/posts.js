@@ -10,5 +10,6 @@ router.get('/', function(req, res) {
 
 router.get('/new', isAuthenticated, postController.getNewPostPage)
 router.post('/new', isAuthenticated, postController.postNewPost)
+router.get('/:tag', postController.getPostsByTag)
 
 module.exports = router;

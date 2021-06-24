@@ -126,7 +126,9 @@ function initMap() {
         success: function (data) {
             var posts = data.posts;
             if (posts.length == 0) {
-                $("#posts").html("No Post!");
+                $("#posts").html(`<div class="col text-center">
+                <h2>No Post</h2>
+            </div>`);
             } else {
                 posts.forEach(post => {
                     var postTemplate = `<div class="col-md-4 col-sm-12">

@@ -84,6 +84,46 @@ module.exports = {
             })
             .catch(error => res.status(422).json(error));
         }
- 
+    },
+    getPostsByTag:(req,res)=>{
+        var tag = req.params.tag;
+        console.log(req.params.tag);
+        const asyncGetAllPosts = async()=>{
+            let posts = await db.sequelize.query(`SELECT Accounts.username, Accounts.id AS userId, Posts.id AS postId, Posts.title, Posts.content, Posts.shopType, Posts.address, Posts.image, Posts.isPublic, Posts.createdAt, Tags.id AS tagId, Tags.tagName 
+                                                    FROM Tags, Post_Tags, Posts, Accounts
+                                                    WHERE Tags.tagName = '${tag}'
+                                                    AND Post_Tags.tagId =  Tags.id
+                                                    AND Post_Tags.postId = Posts.id
+                                                    AND Posts.isPublic = true
+                                                    AND Accounts.id = Posts.authorId
+                                                    ORDER BY Posts.createdAt DESC;`, { type: QueryTypes.SELECT })
+            return posts;
+        }
+        const asyncGetTags = async()=>{
+            let tags = await db.sequelize.query(`SELECT postId, tagId, tagName FROM Post_Tags, Posts, Tags 
+                                                    WHERE Posts.isPublic = true 
+                                                    AND Posts.id = Post_Tags.postId 
+                                                    AND Tags.id = Post_Tags.tagId;`, { type: QueryTypes.SELECT })
+            return tags;
+        }
+        Promise.all([asyncGetAllPosts(),asyncGetTags()]).then(values => {
+            let posts = values[0];
+            let tags = values[1];
+            var tagDict = {};
+            tags.forEach(function(v){
+                if(tagDict[v.postId]!== undefined){
+                    tagDict[v.postId].push(v.tagName);
+                }else{
+                    tagDict[v.postId] = [];
+                    tagDict[v.postId].push(v.tagName);
+                }
+            })
+            posts.forEach(function(post){
+                if(tagDict[post.postId]!=undefined){
+                  post['tags'] = tagDict[post.postId];
+              }
+            })
+            res.render('tag-page',{posts:posts,tag:tag,noPost: posts.length === 0});
+        });
     }
 }
