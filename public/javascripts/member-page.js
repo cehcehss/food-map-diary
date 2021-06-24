@@ -135,8 +135,8 @@ function initMap() {
                                     <div class="card">
                                             <img src="${post.image}" class="card-img-top" alt="...">
                                     <div class="card-body">
-                                        <i class="far fa-trash-alt text-muted float-end"></i>
-                                        <i class="far fa-edit text-muted float-end me-2"></i>
+                                        <a href="/posts/delete/${post.id}"><i class="far fa-trash-alt text-muted float-end"></i></a>
+                                        <a href="/posts/edit/${post.id}"><i class="far fa-edit text-muted float-end me-2"></i></a>
                                         <h5 class="card-title">${post.title} ${post.isPublic?'':'<i class="fas fa-lock text-muted"></i>'}</h5>
                                         
                                         <p class="card-text">${post.content}</p>
@@ -144,7 +144,7 @@ function initMap() {
                                         <a href="https://www.google.com/maps/search/?api=1&query=${post.address}" class="btn btn-outline-secondary"
                                         target="_blank"><i class="fas fa-map-marker-alt"></i></a>
                                         <div id="tag-box">
-                                            ${post.tags.map(function(tag){return '<a href="/posts/'+tag+'" class="tags">#'+tag+'</a>'}).join("")}
+                                            ${(post.tags !== undefined) ? post.tags.map(function(tag){return '<a href="/posts/'+tag+'" class="tags">#'+tag+'</a>'}).join(""):""}
                                         </div>
                                     </div>
                                     </div>

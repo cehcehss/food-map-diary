@@ -11,5 +11,7 @@ router.get('/', function(req, res) {
 router.get('/new', isAuthenticated, postController.getNewPostPage)
 router.post('/new', isAuthenticated, postController.postNewPost)
 router.get('/:tag', postController.getPostsByTag)
+router.get('/edit/:postId', postController.getEditPage)
+router.post('/edit/:postId', postController.postEditPage)
 
 module.exports = router;

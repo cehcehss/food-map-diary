@@ -6,10 +6,15 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
+
             <ul class="navbar-nav ms-auto">
                 <!-- <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="#">Admin Login</a>
                 </li> -->
+                <form class="form-inline my-2 my-lg-0" id="tag-search-form">
+                    <input class="form-control mr-sm-2" type="search" aria-label="Search" name="search" id="search"
+                        placeholder="Search posts by tag">
+                </form>
                 <%if (user) { %>
                 <li class="nav-item">
                     <a class="nav-link" href="/users/user"><%= user.username%></a>
@@ -30,6 +35,7 @@
                 <% } %>
 
             </ul>
+
         </div>
     </div>
 </nav>

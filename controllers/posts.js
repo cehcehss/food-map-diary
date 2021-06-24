@@ -19,7 +19,7 @@ module.exports = {
         }
         Promise.all([asyncGetShopTypes()]).then(values => {
             var shopTypes = values[0];
-            res.render('add-post', {shopTypes});
+            res.render('add-page', {shopTypes});
         });
     },
     postNewPost:(req,res)=>{
@@ -125,5 +125,25 @@ module.exports = {
             })
             res.render('tag-page',{posts:posts,tag:tag,noPost: posts.length === 0});
         });
+    },
+    getEditPage:(req,res)=>{
+        var postId = req.params.postId;
+        const asyncGetShopTypes = async()=>{
+            let shopTypes = await db.sequelize.query("SELECT * FROM `Shop_Types`", { type: QueryTypes.SELECT });
+            return shopTypes;
+        }
+        const asyncGetPost = async()=>{
+            let post = await Post.findOne({ where: { id: postId }});
+            return post;
+        }
+        Promise.all([asyncGetShopTypes(),asyncGetPost()]).then(values => {
+            var shopTypes = values[0];
+            var post = values[1]
+            res.render('edit-page', {shopTypes,post});
+        });
+    },
+    postEditPage:(req,res)=>{
+        var postId = req.params.postId;
+        
     }
 }

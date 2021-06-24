@@ -18,7 +18,6 @@ module.exports = {
   },
   postRegister: (req, res) => {
     const { username, password, password_confirm,email,firstName,lastName,birth,gender} = req.body    // retrieve error message from req
-    console.log(req.body);
     const errors = validationResult(req)
     // validation failed
     if (!errors.isEmpty()) {
@@ -87,6 +86,7 @@ module.exports = {
   }
     Promise.all([asyncFindUserPosts(),asyncGetTags()]).then(values => {
       let posts = values[0];
+
       let tags = values[1];
       var tagDict = {};
       tags.forEach(function(v){
