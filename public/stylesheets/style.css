@@ -8,7 +8,7 @@ body {
 }
 
 .jumbotron {
-  background-image: url("/images/food-bg-image.png");
+  background-image: url("/icons/food-bg-image.png");
   background-repeat: no-repeat;
   background-size: auto;
   background-position: center;
