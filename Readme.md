@@ -1,3 +1,5 @@
+### DEMO
+
 ### Setup Datebase
 
 **Create and use food-map-diary MySQL database**
