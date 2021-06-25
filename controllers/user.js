@@ -1,7 +1,6 @@
 const bcrypt = require('bcryptjs')
 const { validationResult } = require('express-validator')
 
-// Include user model
 const db = require('../models')
 const User = db.Account
 const Post = db.Post
@@ -33,7 +32,6 @@ module.exports = {
     User.findOne({ where: { username: username }})
       .then(async (user) => {
         if (user) {
-          // var msg = "The username already exists";
           return res.render('register');
         } else {
           try {
@@ -71,7 +69,6 @@ module.exports = {
     res.render('member-page');
   },
   getMemberData:(req,res)=>{
-    // if(req.user.id != req.params.id) return res.status(400);
     let uid = req.user.id;
     const asyncFindUserPosts = async()=>{
       let  posts = await db.sequelize.query(`SELECT *, DATE_FORMAT(Posts.createdAt, '%Y-%m-%d %H:%i') AS createdAtFormat FROM Posts WHERE authorId = ${uid}`, { type: QueryTypes.SELECT })

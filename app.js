@@ -58,12 +58,10 @@ app.use((req, res, next) => {
   next()
 })
 
-
 app.use(fileUpload({
   useTempFiles : true,
   tempFileDir : path.join(__dirname,'tmp'),
 }));
-
 
 app.use(express.static('public'))
 app.use('/', indexRouter);

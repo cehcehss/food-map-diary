@@ -203,11 +203,10 @@ $("#posts").on("click",".delete-btn",function(e){
         success: function(response) {
             if(response.status == 200){
                 alert("刪除成功");
-                window.location.href = "/users/user";
             }else{
                 alert(response.message);
             }
-            // window.location.href = "/users/user";
+            window.location.href = "/users/user";
         }
     });
 });

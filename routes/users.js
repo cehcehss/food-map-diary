@@ -3,7 +3,6 @@ var router = express.Router();
 const passport = require('passport')
 const { isAuthenticated } = require('../middlewares/auth')
 const userController = require('../controllers/user')
-// Include server-side validation
 const validation = require('../express-validator')
 
 // 登入頁面
@@ -24,7 +23,7 @@ router.post('/register', validation.registerUser, userController.postRegister)
 // 登出
 router.get('/logout', isAuthenticated, userController.getLogout)
 
-// 我的帳戶頁面
+// 個人頁面
 router.get('/user', isAuthenticated, userController.getMemberPage)
 router.get('/getMemberData/', isAuthenticated, userController.getMemberData)
 

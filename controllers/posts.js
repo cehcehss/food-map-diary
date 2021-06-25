@@ -36,7 +36,6 @@ module.exports = {
             targetFile.mv(path.join('public/images/', targetFile.name), (err) => {
                 if (err)
                     return res.status(500).send(err);
-                // res.send('File uploaded!');
             });
             var imagePath = '/images/'+targetFile.name;
             processFormData(imagePath)

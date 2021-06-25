@@ -3,11 +3,9 @@ const db = require('./models')
 const User = db.Account
 module.exports = {
   newPost: [
-    // validate name field
     body('title')
       .isLength({ min: 1})
       .withMessage('Post title is required'),
-    // Number of People
     body('address')
       .isLength({ min: 1})
       .withMessage('Address is required')

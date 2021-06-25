@@ -4,7 +4,6 @@ const Post = db.Post
 const User = db.User
 const Tag = db.Tag
 const Post_Tag = db.Post_Tag;
-// Include date converter
 const { Op } = require("sequelize");
 const { QueryTypes } = require('sequelize');
 
