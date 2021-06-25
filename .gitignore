@@ -2,3 +2,5 @@ node_modules/
 /config/config.json
 .DS_Store
 tmp/
+images/*
+!images/.gitkeep 
