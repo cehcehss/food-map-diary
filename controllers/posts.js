@@ -54,7 +54,7 @@ module.exports = {
                 isPublic:isPublic
             })
             .then(post => {
-                var tagsArr = tags[0].split(",");
+                var tagsArr = tags.split(",");
                 async function getTags(tagsArr) {
                     var tagsId = [];
                     await Promise.all(tagsArr.map(tag => {
@@ -89,7 +89,7 @@ module.exports = {
         var tag = req.params.tag;
         console.log(req.params.tag);
         const asyncGetAllPosts = async()=>{
-            let posts = await db.sequelize.query(`SELECT Accounts.username, Accounts.id AS userId, Posts.id AS postId, Posts.title, Posts.content, Posts.shopType, Posts.address, Posts.image, Posts.isPublic, Posts.createdAt, Tags.id AS tagId, Tags.tagName 
+            let posts = await db.sequelize.query(`SELECT Accounts.username, Accounts.id AS userId, Posts.id AS postId, Posts.title, Posts.content, Posts.shopType, Posts.address, Posts.image, Posts.isPublic, DATE_FORMAT(Posts.createdAt, '%Y-%m-%d %H:%i') AS createdAt, Tags.id AS tagId, Tags.tagName 
                                                     FROM Tags, Post_Tags, Posts, Accounts
                                                     WHERE Tags.tagName = '${tag}'
                                                     AND Post_Tags.tagId =  Tags.id
@@ -138,12 +138,87 @@ module.exports = {
         }
         Promise.all([asyncGetShopTypes(),asyncGetPost()]).then(values => {
             var shopTypes = values[0];
-            var post = values[1]
-            res.render('edit-page', {shopTypes,post});
+            var post = values[1];
+            res.render('edit-page',{shopTypes,post});
         });
     },
-    postEditPage:(req,res)=>{
+    getEditData:(req,res)=>{
         var postId = req.params.postId;
+        const asyncGetTags = async()=>{
+            let tags = await db.sequelize.query(`SELECT Tags.id, Tags.tagName 
+                                                    FROM Tags, Post_Tags, Posts
+                                                    WHERE Posts.id = ${postId} 
+                                                    AND Post_Tags.postId = Posts.id
+                                                    AND Post_Tags.tagId = Tags.id;`, { type: QueryTypes.SELECT });
+                                                    return tags;
+        }
+        Promise.all([asyncGetTags()]).then(values => {
+            var tags = values[0];
+            res.json({tags});
+        });
+    },
+    UpdateData:(req,res)=>{
+        let postId = req.params.postId;
+        Post.findOne({ where: { id: postId } })
+            .then(post=>{
+                if(post.authorId != req.user.id){
+                    res.json({message : "Hey, you are not the author!", status : 403})
+                }else{
+                    let {title, address, shopType, content,isPublic,tags} = req.body;
+                    isPublic = (isPublic == 'public')?true:false;
+                    let date_ob = new Date();
+                    let date = ("0" + date_ob.getDate()).slice(-2);
+                    let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+                    let year = date_ob.getFullYear();
+                    let hours = date_ob.getHours();
+                    let minutes = date_ob.getMinutes();
+                    let seconds = date_ob.getSeconds();
+                    let datetime = year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds;
+                    const updateData = async()=>{
+                        let posts = await db.sequelize.query(`UPDATE Posts
+                                                                SET title = '${title}', content = '${content}', shopType = ${shopType}, address = '${address}', isPublic = ${isPublic} , updatedAt = '${datetime}'
+                                                                WHERE id = ${postId};`, { type: QueryTypes.UPDATE });
+                        return posts;
+                    }
+                    updateData();
+                    var tagsArr = tags.split(",");
+                    async function getTags(tagsArr) {
+                        var tagsId = [];
+                        await Promise.all(tagsArr.map(tag => {
+                            return Tag.findOrCreate({
+                            where: {
+                                tagName: tag
+                            }
+                        }).then(result=>{
+                            tagsId.push(result[0].id);
+                        })
+                        }));
+                        return tagsId;
+                    }
+                    getTags(tagsArr).then(tagsId=>{
+                        Post_Tag.destroy({
+                            where: {
+                            postId: postId
+                            }
+                        }).then(function(){
+                            var data = [];
+                            tagsId.forEach(tagId => {
+                                var postTag = {};
+                                postTag['postId'] = postId;
+                                postTag['tagId'] = tagId;
+                                data.push(postTag);
+                            });
+                            console.log(data);
+                            Post_Tag.bulkCreate(data)
+                            .then(function(result) {
+                                res.json({success : "Create Successfully", status : 200})
+                            });
+                        });
+                    });
+                }
+            });
+    },
+    deleteData:(req,res)=>{
         
     }
 }

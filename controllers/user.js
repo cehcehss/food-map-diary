@@ -71,10 +71,10 @@ module.exports = {
     res.render('member-page');
   },
   getMemberData:(req,res)=>{
-    if(req.user.id != req.params.id) return res.status(400);
-    let uid = req.params.id;
+    // if(req.user.id != req.params.id) return res.status(400);
+    let uid = req.user.id;
     const asyncFindUserPosts = async()=>{
-      let  posts = await db.sequelize.query(`SELECT * FROM Posts WHERE authorId = ${uid}`, { type: QueryTypes.SELECT })
+      let  posts = await db.sequelize.query(`SELECT *, DATE_FORMAT(Posts.createdAt, '%Y-%m-%d %H:%i') AS createdAtFormat FROM Posts WHERE authorId = ${uid}`, { type: QueryTypes.SELECT })
       return posts;
     }
     const asyncGetTags = async()=>{

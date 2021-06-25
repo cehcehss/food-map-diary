@@ -30,7 +30,7 @@
             </div>
             <% }else{ %>
             <% posts.forEach(function(post){ %>
-            <div class="col-md-4 col-sm-12">
+            <div class="col-md-4 col-sm-12 my-3">
                 <div class="card">
                     <img src="<%=post.image%>" class="card-img-top" alt="...">
                     <div class="card-body">
@@ -43,7 +43,7 @@
                         <div id="tag-box">
                             <% if(post.tags){%>
                             <% post.tags.forEach(function(tag){%>
-                            <a href="/posts/<%= tag%>" class="tags">#<%= tag%></a>
+                            <a href="/posts/tag/<%= tag%>" class="tags">#<%= tag%></a>
                             <%})%>
                             <%}%>
             </div>

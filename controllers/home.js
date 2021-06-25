@@ -11,7 +11,7 @@ const { QueryTypes } = require('sequelize');
 module.exports = {
     getHomePage:(req,res)=>{
         const asyncGetAllPosts = async()=>{
-            let posts = await db.sequelize.query(`SELECT Posts.id, Posts.authorId, Posts.title, Posts.content, Posts.shopType, Posts.address, Posts.image, Posts.isPublic, Posts.createdAt, Accounts.username 
+            let posts = await db.sequelize.query(`SELECT Posts.id, Posts.authorId, Posts.title, Posts.content, Posts.shopType, Posts.address, Posts.image, Posts.isPublic, DATE_FORMAT(Posts.createdAt, '%Y-%m-%d %H:%i') AS createdAt, Accounts.username 
                                                     FROM Posts, Accounts 
                                                     WHERE Posts.authorId = Accounts.id 
                                                     AND Posts.isPublic = true 

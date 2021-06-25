@@ -121,8 +121,7 @@ function initMap() {
     }
     $.ajax({
         type: 'GET',
-        url: `/users/getMemberData/${$("body").attr("user-id")}`,
-
+        url: `/users/getMemberData`,
         success: function (data) {
             var posts = data.posts;
             if (posts.length == 0) {
@@ -131,20 +130,20 @@ function initMap() {
             </div>`);
             } else {
                 posts.forEach(post => {
-                    var postTemplate = `<div class="col-md-4 col-sm-12">
+                    var postTemplate = `<div class="col-md-4 col-sm-12 my-3">
                                     <div class="card">
                                             <img src="${post.image}" class="card-img-top" alt="...">
                                     <div class="card-body">
-                                        <a href="/posts/delete/${post.id}"><i class="far fa-trash-alt text-muted float-end"></i></a>
-                                        <a href="/posts/edit/${post.id}"><i class="far fa-edit text-muted float-end me-2"></i></a>
+                                        <a href="/posts/delete" post-id="${post.id}" class="del-btn"><i class="far fa-trash-alt text-muted float-end"></i></a>
+                                        <a href="/posts/edit-page/${post.id}" post-id="${post.id}" class="edit-btn"><i class="far fa-edit text-muted float-end me-2"></i></a>
                                         <h5 class="card-title">${post.title} ${post.isPublic?'':'<i class="fas fa-lock text-muted"></i>'}</h5>
                                         
                                         <p class="card-text">${post.content}</p>
-                                        <p class="card-text"><small class="text-muted">${post.createdAt}</small></p>
+                                        <p class="card-text"><small class="text-muted">${post.createdAtFormat}</small></p>
                                         <a href="https://www.google.com/maps/search/?api=1&query=${post.address}" class="btn btn-outline-secondary"
                                         target="_blank"><i class="fas fa-map-marker-alt"></i></a>
                                         <div id="tag-box">
-                                            ${(post.tags !== undefined) ? post.tags.map(function(tag){return '<a href="/posts/'+tag+'" class="tags">#'+tag+'</a>'}).join(""):""}
+                                            ${(post.tags !== undefined) ? post.tags.map(function(tag){return '<a href="/posts/tag/'+tag+'" class="tags">#'+tag+'</a>'}).join(""):""}
                                         </div>
                                     </div>
                                     </div>

@@ -11,3 +11,42 @@ $("#tags").tagsinput({
     maxChars: 10
 });
 // $("#tags").tagsinput('add', '');
+// $(".card-body").on("click",".edit-btn",function(){
+//     var postId = $(this).attr('post-id');
+//     console.log(postId);
+// });
+
+$.ajax({
+    type: 'GET',
+    url: `/posts/edit/${$("#edit-post-form").attr("post-id")}`,
+    success: function (data) {
+        var tags = data.tags;
+        if (tags.length !== 0) {
+            tags.forEach(function(tag){
+                $("#tags").tagsinput('add', tag.tagName);
+            });
+        }
+    }
+});
+$("#edit-post-form").submit(function(e){
+    e.preventDefault();
+    var formData = new FormData(this);
+    // formData.append('tags',$("#tags").val());
+    $.ajax({
+        url: `/posts/edit/${$("#edit-post-form").attr("post-id")}`,
+        headers: {"X-CSRF-TOKEN": $('#_csrf').val()},
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType : false,
+        success: function(response) {
+            if(response.status == 200){
+                alert("更新成功");
+                window.location.href = "/users/user";
+            }else{
+                alert(response.message);
+                window.location.href = "/";
+            }
+        }
+    });
+});

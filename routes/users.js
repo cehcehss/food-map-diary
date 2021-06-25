@@ -26,6 +26,6 @@ router.get('/logout', isAuthenticated, userController.getLogout)
 
 // 我的帳戶頁面
 router.get('/user', isAuthenticated, userController.getMemberPage)
-router.get('/getMemberData/:id', isAuthenticated, userController.getMemberData)
+router.get('/getMemberData/', isAuthenticated, userController.getMemberData)
 
 module.exports = router;

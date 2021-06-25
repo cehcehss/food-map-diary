@@ -10,8 +10,10 @@ router.get('/', function(req, res) {
 
 router.get('/new', isAuthenticated, postController.getNewPostPage)
 router.post('/new', isAuthenticated, postController.postNewPost)
-router.get('/:tag', postController.getPostsByTag)
-router.get('/edit/:postId', postController.getEditPage)
-router.post('/edit/:postId', postController.postEditPage)
+router.get('/tag/:tag', postController.getPostsByTag)
+router.get('/edit-page/:postId', postController.getEditPage)
+router.get('/edit/:postId', postController.getEditData)
+router.post('/edit/:postId', postController.UpdateData)
+router.delete('/delete/:postId',postController.deleteData);
 
 module.exports = router;

@@ -13,7 +13,6 @@ $("#tags").tagsinput({
 $("#new-post-form").submit(function(e){
     e.preventDefault();
     var formData = new FormData(this);
-    formData.append('tags',$(".get-tags").text());
     $.ajax({
         url: '/posts/new',
         headers: {"X-CSRF-TOKEN": $('#_csrf').val()},
@@ -23,7 +22,8 @@ $("#new-post-form").submit(function(e){
         contentType : false,
         success: function(response) {
             console.log(response);
-            window.location.href = "/posts/new";
+            alert("新增成功");
+            window.location.href = "/";
         }
     });
 });

@@ -22,7 +22,8 @@
     <div class="container my-5 bt-margin">
         <div class="row justify-content-center">
             <div class="col-md-6 col-sm-12">
-                <form action="/posts/edit/<%=post.id%>" method="post" enctype="multipart/form-data" id="edit-post-form">
+                <form action="/posts/edit/<%=post.id%>" method="post" enctype="multipart/form-data" id="edit-post-form"
+                    post-id="<%=post.id%>">
                     <input type="hidden" id="_csrf" name="_csrf" value="<%= csrfToken %>">
 
                     <div class="mb-3">
@@ -65,13 +66,13 @@
                             Private
                         </label>
                     </div>
-                    <!-- <div class="mt-3">
+                    <div class="mt-3">
                         <label for="tags" class="form-label">標籤</label>
                         <input type="text" class="form-control" data-role="tagsinput" name="tags" id="tags"
                             style="width:100%">
-                    </div> -->
+                    </div>
                     <div class="mt-3">
-                        <button type="submit" class="btn btn-secondary" id="submit-btn">送出</button>
+                        <button type="submit" class="btn btn-secondary" id="submit-btn">更新</button>
                         <a class="btn btn-outline-secondary" href="/">取消</a>
                     </div>
                 </form>

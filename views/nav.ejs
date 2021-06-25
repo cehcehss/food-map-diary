@@ -11,10 +11,11 @@
                 <!-- <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="#">Admin Login</a>
                 </li> -->
-                <form class="form-inline my-2 my-lg-0" id="tag-search-form">
+                <input type="text" class="search-input" id="search" placeholder="Search posts by tag">
+                <!-- <form class="form-inline my-2 my-lg-0" id="tag-search-form">
                     <input class="form-control mr-sm-2" type="search" aria-label="Search" name="search" id="search"
                         placeholder="Search posts by tag">
-                </form>
+                </form> -->
                 <%if (user) { %>
                 <li class="nav-item">
                     <a class="nav-link" href="/users/user"><%= user.username%></a>
