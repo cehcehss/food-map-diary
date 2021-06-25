@@ -44,6 +44,10 @@ $ npm install
 $ npx sequelize db:migrate
 ```
 
+**Insert data into MySQL table**
+> execute SQL script of food-map-diary.sql 
+
+
 **Activate the server**
 
 ```
