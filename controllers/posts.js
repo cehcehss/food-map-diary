@@ -78,7 +78,7 @@ module.exports = {
                     });
                     Post_Tag.bulkCreate(data)
                     .then(function(result) {
-                        res.json({success : "Create Successfully", status : 200})
+                        res.json({message : "新增成功", status : 200})
                     });
                 });
             })
@@ -219,6 +219,30 @@ module.exports = {
             });
     },
     deleteData:(req,res)=>{
-        
+        let postId = req.params.postId;
+        Post.findOne({ where: { id: postId } })
+            .then(post=>{
+                if(post.authorId != req.user.id){
+                    res.json({message : "Hey, you are not the author!", status : 403})
+                }else{
+                    Post.destroy({
+                        where: {
+                            id: postId
+                        }
+                    }).then(function(){
+                        Post_Tag.destroy({
+                            where: {
+                            postId: postId
+                            }
+                        }).then(function(){
+                            res.json({message : "Your post was deleted successfully!", status : 200})
+                        }).catch(function(err){
+                            res.json({message : "Hey, something went wrong!", status : 500})
+                        });
+                    }).catch(function (err) {
+                        res.json({message : "Hey, something went wrong!", status : 500})
+                    });
+                }
+            });
     }
 }

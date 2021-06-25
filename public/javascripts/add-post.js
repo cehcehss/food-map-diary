@@ -21,9 +21,13 @@ $("#new-post-form").submit(function(e){
         processData: false,
         contentType : false,
         success: function(response) {
-            console.log(response);
-            alert("新增成功");
-            window.location.href = "/";
+            if(response.status == 200){
+                alert(response.message);
+                window.location.href = "/";
+            }else{
+                alert("Please try it again later!");
+                window.location.href = "/";
+            }
         }
     });
 });

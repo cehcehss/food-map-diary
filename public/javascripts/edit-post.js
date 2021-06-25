@@ -10,12 +10,6 @@ $("#tags").tagsinput({
     maxTags: 5,
     maxChars: 10
 });
-// $("#tags").tagsinput('add', '');
-// $(".card-body").on("click",".edit-btn",function(){
-//     var postId = $(this).attr('post-id');
-//     console.log(postId);
-// });
-
 $.ajax({
     type: 'GET',
     url: `/posts/edit/${$("#edit-post-form").attr("post-id")}`,
@@ -31,7 +25,6 @@ $.ajax({
 $("#edit-post-form").submit(function(e){
     e.preventDefault();
     var formData = new FormData(this);
-    // formData.append('tags',$("#tags").val());
     $.ajax({
         url: `/posts/edit/${$("#edit-post-form").attr("post-id")}`,
         headers: {"X-CSRF-TOKEN": $('#_csrf').val()},

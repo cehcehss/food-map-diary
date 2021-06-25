@@ -106,18 +106,21 @@ function initMap() {
         ]
     });
     var icons = {
-        2: {
-            icon: '/images/coffee.png'
-        },
-        spaghetti: {
-            icon: 'https://elsiehsieh.github.io/cuisine-map/style/images/spaghetti.png'
-        },
         1: {
-            icon: '/images/sushi.png'
+            icon: '/icons/sushi.png'
         },
-        other: {
-            icon: 'https://elsiehsieh.github.io/cuisine-map/style/images/pin.png'
-        }
+        2: {
+            icon: '/icons/coffee.png'
+        },
+        3: {
+            icon: '/icons/cake.png'
+        },
+        4: {
+            icon: '/icons/brunch.png'
+        },
+        5: {
+            icon: '/icons/other.png'
+        },
     }
     $.ajax({
         type: 'GET',
@@ -134,7 +137,7 @@ function initMap() {
                                     <div class="card">
                                             <img src="${post.image}" class="card-img-top" alt="...">
                                     <div class="card-body">
-                                        <a href="/posts/delete" post-id="${post.id}" class="del-btn"><i class="far fa-trash-alt text-muted float-end"></i></a>
+                                        <a post-id="${post.id}" class="delete-btn"><i class="far fa-trash-alt text-muted float-end"></i></a>
                                         <a href="/posts/edit-page/${post.id}" post-id="${post.id}" class="edit-btn"><i class="far fa-edit text-muted float-end me-2"></i></a>
                                         <h5 class="card-title">${post.title} ${post.isPublic?'':'<i class="fas fa-lock text-muted"></i>'}</h5>
                                         
@@ -189,3 +192,22 @@ function initMap() {
     });
 
 }
+
+$("#posts").on("click",".delete-btn",function(e){
+    e.preventDefault();
+    var postId = $(this).attr('post-id');
+    $.ajax({
+        url: `/posts/delete/${postId}`,
+        headers: {"X-CSRF-TOKEN": $('#_csrf').val()},
+        type: 'DELETE',
+        success: function(response) {
+            if(response.status == 200){
+                alert("刪除成功");
+                window.location.href = "/users/user";
+            }else{
+                alert(response.message);
+            }
+            // window.location.href = "/users/user";
+        }
+    });
+});
