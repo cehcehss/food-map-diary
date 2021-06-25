@@ -1,4 +1,6 @@
 const { body } = require('express-validator')
+const db = require('./models')
+const User = db.Account
 module.exports = {
   newPost: [
     // validate name field
@@ -12,12 +14,14 @@ module.exports = {
   ],
 
   registerUser: [
-    // body('Fname')
-    //   .isLength({ min: 1, max: 10 })
-    //   .withMessage('First Name is required, max 10 letters'),
-    // body('Lname')
-    //   .isLength({ min: 1, max: 10 })
-    //   .withMessage('Last Name is required, max 10 letters'),
+    body('username').custom(value => {
+      return User.findOne({ where: { username: value }}).then(user => {
+        if (user) {
+          throw new Error('The username already exists')
+        }
+        return true
+      });
+    }),
     body('email')
       .isEmail()
       .withMessage('Please provide a valid email'),

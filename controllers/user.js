@@ -33,8 +33,8 @@ module.exports = {
     User.findOne({ where: { username: username }})
       .then(async (user) => {
         if (user) {
-          console.log('Username already exists')
-          res.render('register', { registerData: { username, password, password_confirm,email,firstName,lastName,birth,gender}})
+          // var msg = "The username already exists";
+          return res.render('register');
         } else {
           try {
             //create hashed password
