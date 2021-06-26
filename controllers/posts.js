@@ -54,32 +54,37 @@ module.exports = {
             })
             .then(post => {
                 var tagsArr = tags.split(",");
-                async function getTags(tagsArr) {
-                    var tagsId = [];
-                    await Promise.all(tagsArr.map(tag => {
-                        return Tag.findOrCreate({
-                        where: {
-                            tagName: tag
-                        }
-                    }).then(result=>{
-                        tagsId.push(result[0].id);
-                    })
-                    }));
-                    return tagsId;
+                if(tagsArr[0] == ""){
+                    res.json({message : "新增成功", status : 200})
+                }else{
+                    async function getTags(tagsArr) {
+                        var tagsId = [];
+                        await Promise.all(tagsArr.map(tag => {
+                            return Tag.findOrCreate({
+                            where: {
+                                tagName: tag
+                            }
+                        }).then(result=>{
+                            tagsId.push(result[0].id);
+                        })
+                        }));
+                        return tagsId;
+                    }
+                    getTags(tagsArr).then(tagsId=>{
+                        var data = [];
+                        tagsId.forEach(tagId => {
+                            var postTag = {};
+                            postTag['postId'] = post.id;
+                            postTag['tagId'] = tagId;
+                            data.push(postTag);
+                        });
+                        Post_Tag.bulkCreate(data)
+                        .then(function(result) {
+                            res.json({message : "新增成功", status : 200})
+                        });
+                    });
                 }
-                getTags(tagsArr).then(tagsId=>{
-                    var data = [];
-                    tagsId.forEach(tagId => {
-                        var postTag = {};
-                        postTag['postId'] = post.id;
-                        postTag['tagId'] = tagId;
-                        data.push(postTag);
-                    });
-                    Post_Tag.bulkCreate(data)
-                    .then(function(result) {
-                        res.json({message : "新增成功", status : 200})
-                    });
-                });
+               
             })
             .catch(error => res.status(422).json(error));
         }
@@ -181,39 +186,50 @@ module.exports = {
                     }
                     updateData();
                     var tagsArr = tags.split(",");
-                    async function getTags(tagsArr) {
-                        var tagsId = [];
-                        await Promise.all(tagsArr.map(tag => {
-                            return Tag.findOrCreate({
-                            where: {
-                                tagName: tag
-                            }
-                        }).then(result=>{
-                            tagsId.push(result[0].id);
-                        })
-                        }));
-                        return tagsId;
-                    }
-                    getTags(tagsArr).then(tagsId=>{
+                    if(tagsArr[0] == ""){
                         Post_Tag.destroy({
                             where: {
                             postId: postId
                             }
                         }).then(function(){
-                            var data = [];
-                            tagsId.forEach(tagId => {
-                                var postTag = {};
-                                postTag['postId'] = postId;
-                                postTag['tagId'] = tagId;
-                                data.push(postTag);
-                            });
-                            console.log(data);
-                            Post_Tag.bulkCreate(data)
-                            .then(function(result) {
-                                res.json({success : "Create Successfully", status : 200})
+                            res.json({success : "Create Successfully", status : 200})
+                        });
+
+                    }else{
+                        async function getTags(tagsArr) {
+                            var tagsId = [];
+                            await Promise.all(tagsArr.map(tag => {
+                                return Tag.findOrCreate({
+                                where: {
+                                    tagName: tag
+                                }
+                            }).then(result=>{
+                                tagsId.push(result[0].id);
+                            })
+                            }));
+                            return tagsId;
+                        }
+                        getTags(tagsArr).then(tagsId=>{
+                            Post_Tag.destroy({
+                                where: {
+                                postId: postId
+                                }
+                            }).then(function(){
+                                var data = [];
+                                tagsId.forEach(tagId => {
+                                    var postTag = {};
+                                    postTag['postId'] = postId;
+                                    postTag['tagId'] = tagId;
+                                    data.push(postTag);
+                                });
+                                console.log(data);
+                                Post_Tag.bulkCreate(data)
+                                .then(function(result) {
+                                    res.json({success : "Create Successfully", status : 200})
+                                });
                             });
                         });
-                    });
+                    }
                 }
             });
     },

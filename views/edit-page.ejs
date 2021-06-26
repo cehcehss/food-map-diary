@@ -37,7 +37,7 @@
                     <div class="mb-3">
                         <label for="shop-type" class="form-label">餐廳類型</label>
                         <select class="form-select" name="shopType" id="shop-type">
-                            <option selected>Open this select menu</option>
+                            <option selected disabled>Open this select menu</option>
                             <% shopTypes.forEach(function(type){ %>
                             <option value="<%= type.typeNumber %>"
                                 <%= (post.shopType == type.typeNumber)? 'selected':'' %>><%= type.typeName %></option>
@@ -48,10 +48,6 @@
                         <label for="content" class="form-label">內容</label>
                         <input type="text" class="form-control" name="content" id="content" value="<%=post.content%>">
                     </div>
-                    <!-- <div class="mb-3">
-                        <label for="image" class="form-label">上傳圖片</label>
-                        <input class="form-control" type="file" name="target_file" id="image">
-                    </div> -->
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="isPublic" id="public" value="public"
                             <%= (post.isPublic == 1)?'checked':''%>>

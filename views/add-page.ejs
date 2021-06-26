@@ -36,7 +36,7 @@
                     <div class="mb-3">
                         <label for="shop-type" class="form-label">餐廳類型</label>
                         <select class="form-select" name="shopType" id="shop-type">
-                            <option selected>Open this select menu</option>
+                            <option selected disabled>Open this select menu</option>
                             <% shopTypes.forEach(function(type){ %>
                             <option value="<%= type.typeNumber %>"><%= type.typeName %></option>
                             <%  }); %>

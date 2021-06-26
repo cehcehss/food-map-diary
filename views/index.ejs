@@ -19,7 +19,9 @@
   <div class="container my-5 bt-margin">
     <div class="row justify-content-center" id="posts">
       <% if (noPost){ %>
-      <p>No Post</p>
+      <div class="col text-center">
+        <h2>No Post</h2>
+      </div>
       <% }else{ %>
       <% posts.forEach(function(post){ %>
       <div class="col-md-4 col-sm-12 my-3">
